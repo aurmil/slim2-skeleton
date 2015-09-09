@@ -1,0 +1,98 @@
+# ######################################################################
+# # COMMON DEFAULTS                                                    #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | PHP                                                                |
+# ----------------------------------------------------------------------
+
+PHP: &PHP
+    log_errors                  : true
+
+    default_timezone            : 'Europe/Paris'
+
+    need_session                : false
+    session_cookie_secure       : false
+
+# ----------------------------------------------------------------------
+# | Slim                                                               |
+# ----------------------------------------------------------------------
+
+# http://docs.slimframework.com/#Configuration-Overview
+
+Slim: &Slim
+    log.enabled                 : true
+
+# ----------------------------------------------------------------------
+# | Twig                                                               |
+# ----------------------------------------------------------------------
+
+# http://twig.sensiolabs.org/doc/api.html
+
+Twig: &Twig
+    strict_variables            : true
+
+# ----------------------------------------------------------------------
+# | Application                                                                |
+# ----------------------------------------------------------------------
+
+App: &App
+    language_code               : 'fr'
+
+    meta_title                  : 'Slim 2 Skeleton'
+    meta_title_separator        : '|'
+    meta_description            : ""
+
+    google_analytics_id         : ''
+
+# ######################################################################
+# # ENVIRONMENT SPECIFIC                                               #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | Development                                                        |
+# ----------------------------------------------------------------------
+
+development:
+    PHP:
+        <<: *PHP
+        display_errors          : true
+        display_startup_errors  : true
+
+    Slim:
+        <<: *Slim
+        debug                   : true
+        log.level               : DEBUG
+
+    Twig:
+        <<: *Twig
+        debug                   : true
+        cache                   : false
+
+    App:
+        <<: *App
+        use_google_analytics    : false
+
+# ----------------------------------------------------------------------
+# | Production                                                         |
+# ----------------------------------------------------------------------
+
+production:
+    PHP:
+        <<: *PHP
+        display_errors          : false
+        display_startup_errors  : false
+
+    Slim:
+        <<: *Slim
+        debug                   : false
+        log.level               : WARN
+
+    Twig:
+        <<: *Twig
+        debug                   : false
+        cache                   : true
+
+    App:
+        <<: *App
+        use_google_analytics    : true
