@@ -83,9 +83,10 @@ if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
 
     // objects cannot be json-serialized
 
-    $config['Slim']['log.writer'] = new \Slim\Logger\DateTimeFileWriter([
-        'path' => VAR_PATH.'/log/app',
-        'name_format' => 'Y-m',
+    $config['Slim']['log.writer'] = new \Flynsarmy\SlimMonolog\Log\MonologWriter([
+        'handlers' => [
+            new \Monolog\Handler\StreamHandler(VAR_PATH.'/log/app/'.date('Y-m').'.log'),
+        ],
     ]);
 
     $view = new \Slim\Views\Twig();

@@ -3,9 +3,9 @@
 ## What's included?
 
 * Slim 2
-* Slim-Logger
 * Twig
 * Symfony Yaml Component
+* Monolog
 
 ## Installation
 

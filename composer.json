@@ -13,10 +13,10 @@
         "php": ">=5.4.0",
         "roave/security-advisories": "dev-master",
         "slim/slim": "2.*",
-        "slim/logger": "*",
         "slim/views": "*",
         "twig/twig": "1.*",
-        "symfony/yaml": "2.*"
+        "symfony/yaml": "2.*",
+        "flynsarmy/slim-monolog": "^1.0"
     },
     "autoload": {
         "psr-4": {
