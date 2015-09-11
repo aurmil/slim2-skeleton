@@ -38,10 +38,11 @@ Twig: &Twig
 
 App: &App
     language_code               : 'fr'
-
-    meta_title                  : 'Slim 2 Skeleton'
-    meta_title_separator        : '|'
-    meta_description            : ""
+    
+    metas:
+        title                   : 'Slim 2 Skeleton'
+        title_separator         : ' - '
+        description             : ""
 
     google_analytics_id         : ''
 

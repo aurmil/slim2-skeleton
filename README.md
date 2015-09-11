@@ -4,8 +4,8 @@
 
 * Slim 2
 * Slim-Logger
-* Twig 1
-* Symfony 2 Yaml Component
+* Twig
+* Symfony Yaml Component
 
 ## Installation
 
