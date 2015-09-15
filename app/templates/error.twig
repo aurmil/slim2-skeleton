@@ -4,5 +4,13 @@
 {% block metaTitle %}Error{% endblock %}
 
 {% block content %}
-<p>An error occurred!</p>
+<div>
+    <h1>Error</h1>
+
+    <p>
+        An error occurred!
+        <br><br>
+        <a href="{{ urlFor('home')|e('html_attr') }}">Go to homepage</a>
+    </p>
+</div>
 {% endblock %}

@@ -4,5 +4,13 @@
 {% block metaTitle %}404 not found{% endblock %}
 
 {% block content %}
-<p>Resource not found...</p>
+<div>
+    <h1>Resource not found</h1>
+
+    <p>
+        Page does not exist.
+        <br><br>
+        <a href="{{ urlFor('home')|e('html_attr') }}">Go to homepage</a>
+    </p>
+</div>
 {% endblock %}
