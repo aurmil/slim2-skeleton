@@ -37,14 +37,17 @@ Twig: &Twig
 # ----------------------------------------------------------------------
 
 App: &App
-    language_code               : 'fr'
-    
+    language_code               : 'en'
+
     metas:
         title                   : 'Slim 2 Skeleton'
         title_separator         : ' - '
         description             : ""
 
     google_analytics_id         : ''
+
+    errors: &errors
+        email                   : ''
 
 # ######################################################################
 # # ENVIRONMENT SPECIFIC                                               #
@@ -73,6 +76,9 @@ development:
     App:
         <<: *App
         use_google_analytics    : false
+        errors:
+            <<: *errors
+            send_email          : false
 
 # ----------------------------------------------------------------------
 # | Production                                                         |
@@ -97,3 +103,6 @@ production:
     App:
         <<: *App
         use_google_analytics    : true
+        errors:
+            <<: *errors
+            send_email          : true

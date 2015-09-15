@@ -65,11 +65,7 @@ if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
 
             $config['Slim']['templates.path'] = APP_PATH.'/templates';
 
-            // Twig
-
-            if (isset($config['Twig']['cache'])
-                && true === $config['Twig']['cache']
-            ) {
+            if (true === $config['Twig']['cache']) {
                 $config['Twig']['cache'] = VAR_PATH.'/cache/twig';
             }
 
@@ -81,13 +77,25 @@ if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
         }
     }
 
-    // objects cannot be json-serialized
+    // log
+
+    $handlers = [new \Monolog\Handler\StreamHandler(VAR_PATH.'/log/app/'.date('Y-m').'.log')];
+
+    if (true === $config['App']['errors']['send_email']
+        && '' != $config['App']['errors']['email']
+    ) {
+        $handlers[] = new \Monolog\Handler\NativeMailerHandler(
+            $config['App']['errors']['email'],
+            'Error',
+            $config['App']['errors']['email']
+        );
+    }
 
     $config['Slim']['log.writer'] = new \Flynsarmy\SlimMonolog\Log\MonologWriter([
-        'handlers' => [
-            new \Monolog\Handler\StreamHandler(VAR_PATH.'/log/app/'.date('Y-m').'.log'),
-        ],
+        'handlers' => $handlers,
     ]);
+
+    // view
 
     $view = new \Slim\Views\Twig();
     $view->parserOptions = $config['Twig'];
