@@ -6,6 +6,6 @@ class Front
 {
     public function home($app)
     {
-        $app->render('home.twig');
+        $app->render('front/home.twig');
     }
 }

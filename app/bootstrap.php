@@ -144,12 +144,12 @@ $app->get('/', '\App\Controller\Front:home')
 // errors
 
 $app->notFound(function () use ($app) {
-    $app->render('not-found.twig');
+    $app->render('errors/not-found.twig');
 });
 
 $app->error(function (\Exception $e) use ($app) {
     $app->getLog()->error($e);
-    $app->render('error.twig');
+    $app->render('errors/error.twig');
 });
 
 // dispatch
