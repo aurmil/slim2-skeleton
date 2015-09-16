@@ -86,7 +86,7 @@ if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
     ) {
         $handlers[] = new \Monolog\Handler\NativeMailerHandler(
             $config['App']['errors']['email'],
-            'Error',
+            $config['App']['errors']['email_subject'] ?: 'Error',
             $config['App']['errors']['email']
         );
     }

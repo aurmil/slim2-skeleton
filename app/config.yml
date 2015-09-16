@@ -48,6 +48,7 @@ App: &App
 
     errors: &errors
         email                   : ''
+        email_subject           : 'Error'
 
 # ######################################################################
 # # ENVIRONMENT SPECIFIC                                               #
