@@ -9,12 +9,17 @@
 
 ## Installation
 
-* Clone this repository
-* Run
+Run
+```sh
+composer require aurmil/slim2-skeleton
+```
+
+Or clone this repository and run
 ```sh
 composer install
 ```
-* Make sure __var__ folder is writable by Web server
+
+Make sure __var__ folder is writable by Web server and Apache (if using it) has __AllowOverride All__ for __public__ folder.
 
 ## Web server choice
 
