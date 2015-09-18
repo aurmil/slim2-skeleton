@@ -1,6 +1,7 @@
 {
-    "description": "Slim 2 Skeleton",
-    "keywords": ["slim"],
+    "name": "aurmil/slim2-skeleton",
+    "description": "A Slim Framework v2 application skeleton",
+    "keywords": ["slimphp", "slim", "microframework"],
     "authors": [
         {
             "name": "Aurélien Millet",
@@ -10,6 +11,7 @@
     ],
     "homepage": "https://github.com/aurmil/slim2-skeleton",
     "type": "project",
+    "license": "MIT",
     "require": {
         "php": ">=5.4.0",
         "roave/security-advisories": "dev-master",
