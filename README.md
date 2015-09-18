@@ -9,17 +9,16 @@
 
 ## Installation
 
-Run
+Required: [Composer](https://getcomposer.org/doc/00-intro.md)
+
+Run the following command, replacing __[your-project-name]__ with the name of the folder you want to create.
 ```sh
-composer require aurmil/slim2-skeleton
+composer create-project aurmil/slim2-skeleton [your-project-name]
 ```
 
-Or clone this repository and run
-```sh
-composer install
-```
-
-Make sure __var__ folder is writable by Web server and Apache (if using it) has __AllowOverride All__ for __public__ folder.
+* Create a virtual host that points to your project path __/public__
+* For Apache, make sure it has __AllowOverride All__ for [Slim URL rewriting](http://docs.slimframework.com/routing/rewrite/)
+* Make sure __var__ folder is writable by Web server
 
 ## Web server choice
 
