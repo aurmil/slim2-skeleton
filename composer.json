@@ -19,7 +19,7 @@
         "slim/views": "^0.1.3",
         "twig/twig": "~1.0",
         "flynsarmy/slim-monolog": "^1.0",
-        "symfony/yaml": "^2.7"
+        "symfony/yaml": "~3.0"
     },
     "autoload": {
         "psr-4": {
