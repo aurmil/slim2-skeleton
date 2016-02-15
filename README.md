@@ -4,7 +4,7 @@
 
 * Slim v2
 * Twig v1
-* Monolog v2
+* Monolog v1
 * Symfony Yaml Component v3
 
 ## Installation
