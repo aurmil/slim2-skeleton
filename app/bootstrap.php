@@ -1,10 +1,17 @@
 <?php
 
+// ========== PATHS ==========
+
+define('ROOT_PATH',   dirname(__DIR__));
+define('APP_PATH',    ROOT_PATH.'/app');
+define('VAR_PATH',    ROOT_PATH.'/var');
+
 // ========== PHP (static) ==========
 
 // errors
 
 error_reporting(-1);
+ini_set('error_log', VAR_PATH.'/log/php-'.date('Y-m').'.log');
 
 // charset
 
@@ -15,95 +22,13 @@ if (5 === PHP_MAJOR_VERSION && PHP_MINOR_VERSION < 6) {
     ini_set('mbstring.internal_encoding', 'UTF-8');
 }
 
-// ========== PATHS ==========
-
-define('ROOT_PATH',   dirname(__DIR__));
-define('APP_PATH',    ROOT_PATH.'/app');
-define('VAR_PATH',    ROOT_PATH.'/var');
-
 // ========== COMPOSER ==========
 
 require ROOT_PATH.'/vendor/autoload.php';
 
 // ========== CONFIGURATION ==========
 
-$yaml = APP_PATH.'/config.yml';
-
-if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
-    $env = getenv('ENVIRONMENT') ?: 'development';
-
-    $configCache = VAR_PATH."/cache/config/$env.json";
-
-    if (file_exists($configCache) && is_file($configCache)
-        && is_readable($configCache)
-        && filemtime($configCache) > filemtime($yaml)
-    ) {
-        $config = json_decode(file_get_contents($configCache), true);
-    } else {
-        $yaml = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($yaml));
-
-        if (isset($yaml[$env])) {
-            $config = $yaml[$env];
-            unset($yaml);
-
-            $config['Slim']['mode'] = $env;
-
-            // log
-
-            if (isset($config['Slim']['log.level'])) {
-                $config['Slim']['log.level'] = '\Slim\Log::'
-                                             .$config['Slim']['log.level'];
-
-                if (defined($config['Slim']['log.level'])) {
-                    $config['Slim']['log.level'] = constant($config['Slim']['log.level']);
-                } else {
-                    throw new \Exception('Log level is incorrect.');
-                }
-            }
-
-            // view
-
-            $config['Slim']['templates.path'] = APP_PATH.'/templates';
-
-            if (true === $config['Twig']['cache']) {
-                $config['Twig']['cache'] = VAR_PATH.'/cache/twig';
-            }
-
-            // save config cache file
-
-            file_put_contents($configCache, json_encode($config));
-        } else {
-            throw new \Exception("Environment $env not found in application configuration file.");
-        }
-    }
-
-    // log
-
-    $handlers = [new \Monolog\Handler\StreamHandler(VAR_PATH.'/log/app/'.date('Y-m').'.log')];
-
-    if (true === $config['App']['errors']['send_email']
-        && '' != $config['App']['errors']['email']
-    ) {
-        $handlers[] = new \Monolog\Handler\NativeMailerHandler(
-            $config['App']['errors']['email'],
-            $config['App']['errors']['email_subject'] ?: 'Error',
-            $config['App']['errors']['email']
-        );
-    }
-
-    $config['Slim']['log.writer'] = new \Flynsarmy\SlimMonolog\Log\MonologWriter([
-        'handlers' => $handlers,
-    ]);
-
-    // view
-
-    $view = new \Slim\Views\Twig();
-    $view->parserOptions = $config['Twig'];
-    $view->parserExtensions = [new \Slim\Views\TwigExtension()];
-    $config['Slim']['view'] = $view;
-} else {
-    throw new \Exception('Application configuration file is missing.');
-}
+$config = require APP_PATH.'/config.php';
 
 // ========== PHP (from configuration) ==========
 
@@ -111,12 +36,11 @@ if (file_exists($yaml) && is_file($yaml) && is_readable($yaml)) {
 
 date_default_timezone_set($config['PHP']['default_timezone']);
 
-// errors & log
+// errors
 
 ini_set('display_errors',         $config['PHP']['display_errors']);
 ini_set('display_startup_errors', $config['PHP']['display_startup_errors']);
 ini_set('log_errors',             $config['PHP']['log_errors']);
-ini_set('error_log',              VAR_PATH.'/log/php/'.date('Y-m').'.log');
 
 // session
 
@@ -126,32 +50,23 @@ if (true === $config['PHP']['need_session']) {
     session_start();
 }
 
-// ========== SLIM ==========
+unset($config['PHP']);
 
-// init
+// ========== SLIM ==========
 
 $app = new \Slim\Slim($config['Slim']);
 
 $app->config('app', $config['App']);
 $app->view()->setData('config', $app->config('app'));
 
-// routes
+require APP_PATH.'/dependencies.php';
+require APP_PATH.'/middlewares.php';
+require APP_PATH.'/routes.php';
 
-$app->get('/', '\App\Controller\Front:home')
-    ->name('home')
-    ->setParams([$app]);
-
-// errors
-
-$app->notFound(function () use ($app) {
-    $app->render('errors/not-found.twig');
-});
-
+// Error handler
 $app->error(function (\Exception $e) use ($app) {
     $app->getLog()->error($e);
     $app->render('errors/error.twig');
 });
-
-// dispatch
 
 $app->run();

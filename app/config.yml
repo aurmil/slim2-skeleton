@@ -8,6 +8,8 @@
 
 PHP: &PHP
     log_errors                  : true
+    display_errors              : false
+    display_startup_errors      : false
 
     default_timezone            : 'Europe/Paris'
 
@@ -22,6 +24,8 @@ PHP: &PHP
 
 Slim: &Slim
     log.enabled                 : true
+    log.level                   : DEBUG
+    debug                       : false
 
 # ----------------------------------------------------------------------
 # | Twig                                                               |
@@ -31,6 +35,7 @@ Slim: &Slim
 
 Twig: &Twig
     cache                       : true
+    auto_reload                 : true
     strict_variables            : true
 
 # ----------------------------------------------------------------------
@@ -46,8 +51,10 @@ App: &App
         description             : ""
 
     google_analytics_id         : ''
+    use_google_analytics        : false
 
     errors: &errors
+        send_email              : false
         email                   : ''
         email_subject           : 'Error'
 
@@ -68,18 +75,12 @@ development:
     Slim:
         <<: *Slim
         debug                   : true
-        log.level               : DEBUG
 
     Twig:
         <<: *Twig
-        debug                   : true
 
     App:
         <<: *App
-        use_google_analytics    : false
-        errors:
-            <<: *errors
-            send_email          : false
 
 # ----------------------------------------------------------------------
 # | Production                                                         |
@@ -88,12 +89,9 @@ development:
 production:
     PHP:
         <<: *PHP
-        display_errors          : false
-        display_startup_errors  : false
 
     Slim:
         <<: *Slim
-        debug                   : false
         log.level               : WARN
 
     Twig:

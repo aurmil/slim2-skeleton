@@ -2,10 +2,10 @@
 
 ## What's included?
 
-* Slim 2
-* Twig
-* Monolog
-* Symfony Yaml Component
+* Slim v2
+* Twig v1
+* Monolog v2
+* Symfony Yaml Component v3
 
 ## Installation
 
