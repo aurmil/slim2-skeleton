@@ -36,7 +36,7 @@ General settings are merged with environment-specific settings. The latter ones 
 
 ### Access config in PHP code
 
-In __/app/bootstrap.php__, the whole configuration is in the __$config__ variable.
+In __/app/src/bootstrap.php__, the whole configuration is in the __$config__ variable.
 
 In a controller action, only the __App__ section of configuration is available through __$app->config('app')__.
 ```php
