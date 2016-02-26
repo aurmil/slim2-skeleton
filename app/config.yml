@@ -55,8 +55,9 @@ App: &App
 
     errors: &errors
         send_email              : false
-        email                   : ''
+        email_to                : ''
         email_subject           : 'Error'
+        email_from              : ''
 
 # ######################################################################
 # # ENVIRONMENT SPECIFIC                                               #

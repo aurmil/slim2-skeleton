@@ -2,16 +2,27 @@
 
 // Logger
 
-$handlers = [new Monolog\Handler\StreamHandler(VAR_PATH.'/log/app-'.date('Y-m').'.log')];
+$handlers = [];
+
+$formatter = new Monolog\Formatter\LineFormatter;
+$formatter->includeStacktraces();
+
+$handler = new Monolog\Handler\StreamHandler(
+    VAR_PATH.'/log/app-'.date('Y-m').'.log'
+);
+$handler->setFormatter($formatter);
+$handlers[] = $handler;
 
 if (true === $config['App']['errors']['send_email']
-    && '' != $config['App']['errors']['email']
+    && '' != $config['App']['errors']['email_to']
 ) {
-    $handlers[] = new Monolog\Handler\NativeMailerHandler(
-        $config['App']['errors']['email'],
+    $handler = new Monolog\Handler\NativeMailerHandler(
+        $config['App']['errors']['email_to'],
         $config['App']['errors']['email_subject'] ?: 'Error',
-        $config['App']['errors']['email']
+        $config['App']['errors']['email_from']
     );
+    $handler->setFormatter($formatter);
+    $handlers[] = $handler;
 }
 
 $app->getLog()->setWriter(new Flynsarmy\SlimMonolog\Log\MonologWriter([
