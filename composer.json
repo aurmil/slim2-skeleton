@@ -1,7 +1,7 @@
 {
     "name": "aurmil/slim2-skeleton",
-    "description": "A Slim Framework v2 application skeleton",
-    "keywords": ["slimphp", "slim", "microframework"],
+    "description": "A Slim Framework 2 application skeleton",
+    "keywords": ["slimphp", "slim", "framework"],
     "authors": [
         {
             "name": "Aurélien Millet",
